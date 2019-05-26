@@ -1,0 +1,19 @@
+{
+    "iamhere": {
+        "awscloudformation": {
+            "AuthRoleName": "iamhere-iamhere-20190526055029-authRole",
+            "UnauthRoleArn": "arn:aws:iam::078687305329:role/iamhere-iamhere-20190526055029-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::078687305329:role/iamhere-iamhere-20190526055029-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "iamhere-iamhere-20190526055029-deployment",
+            "UnauthRoleName": "iamhere-iamhere-20190526055029-unauthRole",
+            "StackName": "iamhere-iamhere-20190526055029",
+            "StackId": "arn:aws:cloudformation:eu-central-1:078687305329:stack/iamhere-iamhere-20190526055029/05850630-7f61-11e9-a230-066084ff6f3a"
+        },
+        "categories": {
+            "auth": {
+                "iamhere9d002f3f": {}
+            }
+        }
+    }
+}

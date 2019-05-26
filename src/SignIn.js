@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
 import { StyleSheet,Text,View,TextInput,Button,TouchableHighlight,Image,Alert } from 'react-native';
+import { Auth } from 'aws-amplify';
 
 export default class SignIn extends Component {
 
     constructor(props) {
         super(props);
-        state = {
+        this.state = {
           email   : '',
           password: '',
         }
       }
-      onClickListener = (viewId) => {    //will be filled after database is created
-        Alert.alert("Alert", viewId+" button pressed.");
+      onClickListener = (handler) => {    //will be filled after database is created
+        const { email, password } = this.state;
+       // alert(JSON.stringify(this.state));
+        Auth.signIn(email, password)
+        // If we are successful, navigate to Home screen
+          .then( () => {
+            alert('Sign in is successful');
+            this.props.navigation.navigate('Home')
+          })
+        // On failure, display error in console
+        .catch(err => alert(err.code));
       }
+      
     render() {
         return (
           <View style={styles.container}>
@@ -22,7 +33,7 @@ export default class SignIn extends Component {
                   placeholder="Email"
                   keyboardType="email-address"
                   underlineColorAndroid='transparent'
-                  onChangeText={(email) => this.setState({email})}/>
+                  onChangeText={(email) => this.setState({email:email})}/>
             </View>
             
             <View style={styles.inputContainer}>
@@ -31,10 +42,10 @@ export default class SignIn extends Component {
                   placeholder="Password"
                   secureTextEntry={true}
                   underlineColorAndroid='transparent'
-                  onChangeText={(password) => this.setState({password})}/>
+                  onChangeText={(password) => this.setState({password:password})}/>
             </View>
     
-            <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.onClickListener('signed in')}>
+            <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={() => this.onClickListener('SignIn')}>
               <Text style={styles.signUpText}>Sign in</Text>
             </TouchableHighlight>
           </View>

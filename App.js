@@ -5,6 +5,11 @@ import { StyleSheet,TextInput,TouchableHighlight,Image,Alert } from 'react-nativ
 import SignUp from './src/SignUp.js';
 import SignIn from './src/SignIn.js';
 
+import Amplify from 'aws-amplify';
+import aws_exports from './aws-exports';
+
+Amplify.configure(aws_exports);
+
 class HomeScreen extends React.Component {
   render() {
     return (
@@ -43,6 +48,7 @@ const RootStack = createStackNavigator(
 const AppContainer = createAppContainer(RootStack);
 
 export default class App extends React.Component {
+ 
   render() {
     return <AppContainer />;
   }
