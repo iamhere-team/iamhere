@@ -1,15 +1,27 @@
 package com.iamhere.iamhere;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSettings;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private String email=null;
     private String password=null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,39 +43,59 @@ public class SignUpActivity extends AppCompatActivity {
                     {
                         email = editTextMail.getText().toString();
                         password = editTextPassword.getText().toString();
-                        //sendUserData();
+                        sendUserData();
+
                     }
                 });
     }
 
+ /*   public void onClick(View view){
+
+        if (view.getId() == R.id.button_signUp_signUp) {
+            email = editTextMail.getText().toString();
+            password = editTextPassword.getText().toString();
+            sendUserData();
+            startActivity(new Intent(SignUpActivity.this, VerificationActivity.class));
+        }
+    }
+
+*/
+
+
+
+
     public void sendUserData(){
 
-    /*    RetrofitCreate rc = new RetrofitCreate();
-        Retrofit retrofit = rc.createRetrofit();
+        final CognitoUserAttributes userAttributes = new CognitoUserAttributes();
+        SignUpHandler handler= new SignUpHandler() {
 
-        RestAPI rest = retrofit.create(RestAPI.class);
-
-        JsonObject obj = new JsonObject();
-        obj.addProperty("user_name",user_name);
-        obj.addProperty("password",password);
-        Call<JsonObject> call = rest.saveSign(obj);
-
-        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Status status = new Status(response.body().get("status").getAsInt(),
-                        response.body().get("message").toString());
-                Toast.makeText(getBaseContext(),status.toString(),Toast.LENGTH_LONG).show();
-                startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+            public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
+                if(!signUpConfirmationState) {
+                    Toast.makeText(getBaseContext(), "Sign up succesful without confirmation, verification code sent to" +
+                            cognitoUserCodeDeliveryDetails.getDestination(), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(SignUpActivity.this, VerificationActivity.class));
+                }
+                else
+                    Toast.makeText(getBaseContext(),"Sign up succesful",Toast.LENGTH_LONG).show();
             }
+
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(getBaseContext(),"Error!",Toast.LENGTH_LONG).show();
+            public void onFailure(Exception exception) {
+                Toast.makeText(getBaseContext(),"Sign up failed"+ exception.getMessage(),Toast.LENGTH_LONG).show();
             }
-        });
+        };
+        userAttributes.addAttribute("email",email);
 
-        */
+        CognitoSettings cognitoSettings = new CognitoSettings(SignUpActivity.this);
 
+        cognitoSettings.getUserPool().signUpInBackground(email,password,userAttributes,null, handler);
+
+
+       // AWSConfiguration awsConfiguration = new AWSConfiguration(getApplicationContext());
+       // CognitoUserPool cognitoUserPool = new CognitoUserPool(getApplicationContext(),awsConfiguration);
+
+        //cognitoUserPool.signUpInBackground(email,password,userAttributes,null,handler);
     }
 
 
