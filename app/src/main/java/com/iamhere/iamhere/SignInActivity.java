@@ -1,5 +1,6 @@
 package com.iamhere.iamhere;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,15 +32,28 @@ public class SignInActivity extends AppCompatActivity {
         final EditText editTextPassword = (EditText) findViewById(R.id.editText_signIn_password);
         editTextPassword.setHint("Enter password...");
 
-        Button button = (Button)findViewById(R.id.button_signIn_signIn);
+        Button buttonInstructor = (Button)findViewById(R.id.instructorSignIn);
+        Button buttonStudent = (Button)findViewById(R.id.signInStudent);
 
-        button.setOnClickListener(new View.OnClickListener() {
+
+        buttonInstructor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = editTextMail.getText().toString();
                 password = editTextPassword.getText().toString();
-                signIn();
 
+                signIn(0);
+            }
+        });
+
+        buttonStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = editTextMail.getText().toString();
+                password = editTextPassword.getText().toString();
+
+
+                signIn(1);
             }
         });
 
@@ -47,14 +61,19 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    public void signIn(){
+    public void signIn(int state){
 
+        final int state2 = state;
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
 
                 Toast.makeText(getBaseContext(), "Sign in successfull" , Toast.LENGTH_LONG).show();
 
+                if(state2==0)
+                    startActivity(new Intent(SignInActivity.this, InstructorEnroll.class));
+                else
+                    startActivity(new Intent(SignInActivity.this, Enroll.class));
                 // navigate to app and do stuff.
 
             }
