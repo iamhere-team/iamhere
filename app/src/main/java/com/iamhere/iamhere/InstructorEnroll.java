@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ public class InstructorEnroll extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_enroll);
+
+        Button showStudentList = (Button)findViewById(R.id.show_student_list);
 
         five_min = findViewById(R.id.five_min);
         ten_min = findViewById(R.id.ten_min);
@@ -49,6 +52,14 @@ public class InstructorEnroll extends AppCompatActivity {
             }
         });
 
+        showStudentList.setOnClickListener(
+            new View.OnClickListener()
+                {
+                    public void onClick(View view)
+                    {
+                        startActivity(new Intent(InstructorEnroll.this, EnrolledStudentsList.class));
+                    }
+                });
     }
 
     @Override
