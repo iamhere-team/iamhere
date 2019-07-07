@@ -70,13 +70,11 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="68dp"
-                android:text="student" />
+                android:layout_height="68dp" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="68dp"
-                android:text="student" />
+                android:layout_height="68dp" />
 
             <TextView
                 android:layout_width="match_parent"
